@@ -4,9 +4,25 @@ import 'package:dolumns/dolumns.dart';
 
 ArgParser _initParser() {
   var _parser = ArgParser(allowTrailingOptions: false);
-  _parser.addOption("file", abbr: 'f', defaultsTo: '.');
-  _parser.addOption("mode", abbr: 'm', allowed: ['log', 'stat', 'both']);
-  _parser.addFlag("recurse", abbr: 'r', negatable: false);
+  _parser.addOption("dir",
+      abbr: 'd', defaultsTo: '.', help: "The directory to scan.");
+  _parser.addOption("mode",
+      abbr: 'm',
+      allowed: ['log', 'stat', 'both'],
+      help: "The mode to use.",
+      allowedHelp: {
+        'log': 'prints out log',
+        'stat': 'prints out type statistics',
+        'both': 'prints out both log and statistics'
+      });
+  // todo: add exclude
+  // _parser.addMultiOption("exclude", abbr: 'e');
+  _parser.addFlag("recurse",
+      abbr: 'r',
+      negatable: false,
+      help: "Whether to recursively scan child directories.");
+  _parser.addFlag("help",
+      abbr: 'h', negatable: false, help: "Prints out this text.");
 
   return _parser;
 }
@@ -24,8 +40,13 @@ int main(List<String> args) {
   try {
     results = parser.parse(args);
 
+    if (results['help']) {
+      print(parser.usage);
+      return 0;
+    }
+
     recursive = results['recurse'];
-    directory = Directory(results['file']).absolute;
+    directory = Directory(results['dir']).absolute;
 
     switch (results['mode']) {
       case 'log':
@@ -83,7 +104,7 @@ int main(List<String> args) {
         length += bytes;
       } catch (FileSystemException) {
         if (log) {
-          print("Skipped: ${entt.path}");
+          //print("Skipped: ${entt.path}");
         }
       }
     }
