@@ -124,10 +124,10 @@ int main(List<String> args) {
         statCol.add([
           key.toString(),
           value.toString(),
-          (value / lines * 100).toString() +
+          (value / lines * 100).toStringAsFixed(3) +
               "(" +
               value.toString() +
-              " / " +
+              "/" +
               lines.toString() +
               ")"
         ]);
