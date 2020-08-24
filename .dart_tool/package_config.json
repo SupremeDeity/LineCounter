@@ -1,0 +1,25 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "args",
+      "rootUri": "file:///C:/Users/Mohsin/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/args-1.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.3"
+    },
+    {
+      "name": "dolumns",
+      "rootUri": "file:///C:/Users/Mohsin/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/dolumns-1.0.1+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
+      "name": "LineCounter",
+      "rootUri": "../",
+      "packageUri": "lib/"
+    }
+  ],
+  "generated": "2020-08-24T11:04:09.816214Z",
+  "generator": "pub",
+  "generatorVersion": "2.9.0"
+}
