@@ -67,9 +67,9 @@ void _fileActions(FileSystemEntity entity) {
 
 void _printResults() {
   if (log) {
-    print("-" * 30 + "\n\tLOG");
-    print("-" * 30 + "\n" + dolumnify(columns));
-    print("-" * 30);
+    stdout.write("-" * 30 + "\n\tLOG");
+    stdout.write("-" * 30 + "\n" + dolumnify(columns));
+    stdout.write("-" * 30);
   }
 
   var statCol = [
@@ -109,7 +109,7 @@ int main(List<String> args) {
     results = parser.parse(args);
 
     if (results['help']) {
-      print(parser.usage);
+      stdout.write(parser.usage);
       return 0;
     }
 
@@ -130,14 +130,14 @@ int main(List<String> args) {
         break;
     }
   } catch (FormatException) {
-    print("Exception Caught.");
-    print(parser.usage);
+    stderr.write("Exception Caught.");
+    stderr.write(parser.usage);
 
     return -1;
   }
 
   if (results.rest.length > 0) {
-    print("Unknown argument(s) passed!");
+    stderr.write("Unknown argument(s) passed!");
     return -1;
   }
 
