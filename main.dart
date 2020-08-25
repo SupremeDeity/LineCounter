@@ -39,6 +39,13 @@ ArgParser _initParser() {
   return _parser;
 }
 
+bool _isNumeric(String s) {
+  if (s == null) {
+    return false;
+  }
+  return double.parse(s, (e) => null) != null;
+}
+
 void _fileActions(FileSystemEntity entity) {
   File entt = entity as File;
   String path = entt.path;
@@ -46,6 +53,7 @@ void _fileActions(FileSystemEntity entity) {
   int extIndex = filename.lastIndexOf(".");
   String ext =
       extIndex != -1 ? filename.substring(extIndex + 1).toUpperCase() : "OTHER";
+  if (_isNumeric(ext)) ext = "OTHER";
 
   try {
     int _lines = entt.readAsLinesSync().length;
