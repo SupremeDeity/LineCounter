@@ -5,21 +5,24 @@ Line Counter is a simple program written in dart that can be used to count lines
 ## Usage
 
 If you are using the dart sdk:
+
 ```bash
 cd <program_directoy>
 dart main.dart
 ```
 
 If you are using the executable:
+
 ```bash
 linecounter.exe
 ```
 
-This gives a overview of total lines and length in bytes of the current directory. 
+This gives a overview of total lines and length in bytes of the current directory.
 
 The program accepts several arguments:
+
 ```bash
--d, --dir        The directory to scan.
+-l, --location   The location/file to scan.
                  (defaults to ".")
 -m, --mode           log: prints out log
                      stat: prints out type statistics
@@ -31,6 +34,7 @@ The program accepts several arguments:
 You can use --help argument to print this help text.
 
 ## Example
+
 ```bash
 > dart main.dart --mode=both
 
