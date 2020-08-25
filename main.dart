@@ -42,7 +42,10 @@ ArgParser _initParser() {
 void _fileActions(FileSystemEntity entity) {
   File entt = entity as File;
   String path = entt.path;
-  String ext = path.substring(path.lastIndexOf(".") + 1).toUpperCase();
+  String filename = path.substring(entt.parent.path.length);
+  int extIndex = filename.lastIndexOf(".");
+  String ext =
+      extIndex != -1 ? filename.substring(extIndex + 1).toUpperCase() : "OTHER";
 
   try {
     int _lines = entt.readAsLinesSync().length;
@@ -58,18 +61,14 @@ void _fileActions(FileSystemEntity entity) {
     }
     lines += _lines;
     length += bytes;
-  } catch (FileSystemException) {
-    if (log) {
-      //print("Skipped: ${entt.path}");
-    }
-  }
+  } catch (FileSystemException) {}
 }
 
 void _printResults() {
   if (log) {
-    stdout.write("-" * 30 + "\n\tLOG");
-    stdout.write("-" * 30 + "\n" + dolumnify(columns));
-    stdout.write("-" * 30);
+    print("-" * 30 + "\n\tLOG");
+    print("-" * 30 + "\n" + dolumnify(columns));
+    print("-" * 30);
   }
 
   var statCol = [
@@ -109,7 +108,7 @@ int main(List<String> args) {
     results = parser.parse(args);
 
     if (results['help']) {
-      stdout.write(parser.usage);
+      print(parser.usage);
       return 0;
     }
 
@@ -130,29 +129,29 @@ int main(List<String> args) {
         break;
     }
   } catch (FormatException) {
-    stderr.write("Exception Caught.");
-    stderr.write(parser.usage);
+    print("Exception Caught.");
+    print(parser.usage);
 
     return -1;
   }
 
   if (results.rest.length > 0) {
-    stderr.write("Unknown argument(s) passed!");
+    print("Unknown argument(s) passed!");
     return -1;
   }
 
-  FileSystemEntity.isFile(results['dir']).then((bool isFile) {
+  FileSystemEntity.isFile(results['location']).then((bool isFile) {
     if (isFile) {
-      _fileActions(File(results['dir']));
+      _fileActions(File(results['location']));
       _printResults();
 
       return 0;
     }
   });
 
-  FileSystemEntity.isDirectory(results['dir']).then((bool isDir) {
+  FileSystemEntity.isDirectory(results['location']).then((bool isDir) {
     if (isDir) {
-      Directory(results['dir'])
+      Directory(results['location'])
           .list(recursive: recursive, followLinks: true)
           .listen((FileSystemEntity entity) {
         if (entity.statSync().type == FileSystemEntityType.file) {
