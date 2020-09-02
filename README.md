@@ -39,11 +39,7 @@ You can use --help argument to print this help text.
 ## Example
 
 ```bash
-<<<<<<< HEAD
 > dart main.dart -m both -i **.yaml,**.md -r
-=======
-$ dart main.dart --mode=both
->>>>>>> 80e15910be092f428c5f1419458ffcb785ec881d
 
 ------------------------------
         LOG
