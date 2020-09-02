@@ -7,14 +7,14 @@ Line Counter is a simple program written in dart that can be used to count lines
 If you are using the dart sdk:
 
 ```bash
-cd <program_directoy>
-dart main.dart
+$ cd <program_directoy>
+$ dart main.dart
 ```
 
 If you are using the executable:
 
 ```bash
-linecounter.exe
+$ linecounter.exe
 ```
 
 This gives a overview of total lines and length in bytes of the current directory.
@@ -39,7 +39,11 @@ You can use --help argument to print this help text.
 ## Example
 
 ```bash
+<<<<<<< HEAD
 > dart main.dart -m both -i **.yaml,**.md -r
+=======
+$ dart main.dart --mode=both
+>>>>>>> 80e15910be092f428c5f1419458ffcb785ec881d
 
 ------------------------------
         LOG
