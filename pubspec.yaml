@@ -4,3 +4,4 @@ description: Counts lines in different files.
 dependencies:
   args:
   dolumns:
+  glob:

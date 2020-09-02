@@ -1,11 +1,13 @@
 import "dart:io";
 import "package:args/args.dart";
 import 'package:dolumns/dolumns.dart';
+import 'package:glob/glob.dart';
 
 int lines = 0;
 int length = 0;
 bool log = false;
 bool stats = false;
+var ignore = <Glob>[];
 var fsEntity;
 var statsArr = {};
 var columns = [
@@ -14,6 +16,8 @@ var columns = [
 
 ArgParser _initParser() {
   var _parser = ArgParser(allowTrailingOptions: false);
+  _parser.addMultiOption("ignore",
+      abbr: 'i', defaultsTo: <String>[], help: "Glob pattern to ignore files.");
   _parser.addOption("location",
       abbr: 'l', defaultsTo: '.', help: "The location/file to scan.");
   _parser.addOption(
@@ -27,8 +31,6 @@ ArgParser _initParser() {
       'both': 'prints out both log and statistics'
     },
   );
-  // todo: add exclude
-  // _parser.addMultiOption("exclude", abbr: 'e');
   _parser.addFlag("recurse",
       abbr: 'r',
       negatable: false,
@@ -49,6 +51,7 @@ bool _isNumeric(String s) {
 void _fileActions(FileSystemEntity entity) {
   File entt = entity as File;
   String path = entt.path;
+  for (var glob in ignore) if (glob.matches(path)) return;
   String filename = path.substring(entt.parent.path.length);
   int extIndex = filename.lastIndexOf(".");
   String ext =
@@ -58,6 +61,7 @@ void _fileActions(FileSystemEntity entity) {
   try {
     int _lines = entt.readAsLinesSync().length;
     int bytes = entt.lengthSync();
+
     if (stats) {
       if (statsArr.containsKey(ext)) {
         statsArr[ext] += _lines;
@@ -121,23 +125,12 @@ int main(List<String> args) {
     }
 
     recursive = results['recurse'];
+    for (var glob in results['ignore']) ignore.add(Glob(glob));
 
-    switch (results['mode']) {
-      case 'log':
-        log = true;
-        break;
-      case 'stat':
-        stats = true;
-        break;
-      case 'both':
-        log = true;
-        stats = true;
-        break;
-      default:
-        break;
-    }
-  } catch (FormatException) {
-    print("Exception Caught.");
+    log = results['mode'] == "log" || results['mode'] == "both";
+    stats = results['mode'] == "stat" || results['mode'] == "both";
+  } catch (e) {
+    print("Exception Caught: " + e.toString());
     print(parser.usage);
 
     return -1;
